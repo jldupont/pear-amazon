@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.0" 
+		version="2.0" 
+		xmlns="http://pear.php.net/dtd/package-2.0" 
+		xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd 
+		http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+
+ <name>Amazon</name>
+ <channel>pear-amazon.googlecode.com/svn</channel>
+ <summary>http://pear-amazon.googlecode.com</summary>
+ <description>http://pear-amazon.googlecode.com</description>
+
+ <lead>
+  <name>Jean-Lou Dupont</name>
+  <user>jldupont</user>
+  <email>pear-amazon@jldupont.com</email>
+  <active>yes</active>
+ </lead>
+
+ <date>2008-01-22</date>
+ <time>02:12:37</time>
+
+ <version>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
+ </version>
+ 
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+
+ <license uri="http://www.php.net/license">PHP License</license>
+
+ <notes>@@notes@@</notes>
+
+ <contents>
+  <dir name="/">
+	<!-- file list begin {{ -->
+	<!-- baseinstalldir: the target directory on the target machine -->
+	<!-- <file baseinstalldir="MediaWiki" name="AddScriptCss/AddScriptCss.body.php" role="php" /> -->
+	<file baseinstalldir="Amazon" name="SimpleDB\Client.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Exception.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Interface.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock\CreateDomainResponse.xml" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock\DeleteAttributesResponse.xml" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock\DeleteDomainResponse.xml" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock\ErrorResponse.xml" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock\GetAttributesResponse.xml" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock\ListDomainsResponse.xml" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock\PutAttributesResponse.xml" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock\QueryResponse.xml" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Mock.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\Attribute.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\CreateDomain.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\CreateDomainResponse.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\DeleteAttributes.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\DeleteAttributesResponse.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\DeleteDomain.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\DeleteDomainResponse.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\Error.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\ErrorResponse.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\GetAttributes.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\GetAttributesResponse.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\GetAttributesResult.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\ListDomains.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\ListDomainsResponse.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\ListDomainsResult.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\PutAttributes.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\PutAttributesResponse.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\Query.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\QueryResponse.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\QueryResult.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\ReplaceableAttribute.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model\ResponseMetadata.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Model.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Samples\.config.inc.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Samples\CreateDomainSample.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Samples\DeleteAttributesSample.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Samples\DeleteDomainSample.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Samples\GetAttributesSample.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Samples\ListDomainsSample.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Samples\PutAttributesSample.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Samples\QuerySample.php" role="php" /> <file baseinstalldir="Amazon" name="SimpleDB\Util.php" role="php" /> 
+    <!-- }} -->
+
+  </dir>
+ </contents>
+ 
+ <dependencies>
+  <required>
+
+   <php>
+    <min>5.2.1</min>
+    <max>6.0.0</max>
+   </php>
+
+   <pearinstaller>
+    <min>1.6.2</min>
+   </pearinstaller>
+
+  </required>
+ </dependencies>
+
+ <phprelease>
+  <installconditions>
+   <os>
+    <name>*</name>
+   </os>
+  </installconditions>
+ </phprelease>
+
+<changelog>
+<release>
+<license uri="http://www.php.net/license">PHP License</license>
+<notes>
+* Initial public release
+</notes>
+</release>
+</changelog>
+
+</package>
