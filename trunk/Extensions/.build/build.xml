@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+
+<!--
+	Generic PHING build file 
+	
+	@author Jean-Lou Dupont
+	@version $Id: build.xml 257 2007-11-16 16:13:27Z JeanLou.Dupont $
+-->
+
+<project name="jldupont" basedir="." default='all' >
+
+	<!-- Import package details -->
+	<property file="./build.properties" />
+
+	<resolvepath propertyName="build.root.path" file="${project.basedir}/../../.build/" /> <!-- 1 level down -->
+
+	<target name='DoCreatePackage'>
+		<echo>Calling create package build file</echo>
+		<phing phingfile="../../.build/build.create.package.xml" 
+				inheritRefs="true" 
+				inheritAll="true"
+				target="all" />
+	</target>
+
+	<target name='DoPackage' depends="DoCreatePackage" >
+		<echo>Calling package build file</echo>
+		<phing phingfile="../../.build/build.package.xml" 
+				inheritRefs="true" 
+				inheritAll="true"
+				target="all" />
+	</target>
+
+	<target name='DoRss' depends="DoPackage">
+		<phing phingfile="../../.build/build.rss.xml" 
+				inheritRefs="true" 
+				inheritAll="true" />
+	</target>
+
+	<!--<target name='all' depends='DoCreatePackage, DoPackage, DoRss' />-->
+	<target name='all' depends='DoCreatePackage, DoPackage, DoRss' />
+</project>
