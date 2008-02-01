@@ -2,8 +2,16 @@
 /**
  * SimpleDB extension
  *
- * This class extends Amazon's SimpleDB Client class with the following services:
- * -
+ * This class is meant to abstract a whole 'domain'. The base class (i.e. Amazon_SimpleDB_Client)
+ * is abstracted to deal with the customer's whole domain space.
+ *
+ * It also sports the following additional methods:
+ * - createUniqueElement
+ * - putUniqueElement
+ * - getUniqueElement
+ * - deleteUniqueElement
+ * - deleteElements
+ * - isUniqueElement
  *
  * @author Jean-Lou Dupont
  * @version @@package-version@@
@@ -11,73 +19,269 @@
  */
 
 require 'Amazon/SimpleDB/Client.php';
+require 'Amazon/Extensions/SimpleDBx/Interface.php';
 
 class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
+	implements SimpleDBx_Interface
 {
 	/**
-	 * @static string acts a ''lock'' identifier
-	 */
-	static $lock = 'LOCK:';
-	/**
-	 *
+	 * @var $domain
 	 */	
-	const CODE_OK				= true;
-	const CODE_LOCK_PRESENT		= -1;
-	const CODE_ITEM_EXISTS		= -2;	
-		 
+	var $domain = null;
+			 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // Extended interface
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
-	 * Creates a unique ''item'', if possible.
+	 * Sets the domain name for this object instance
+	 * @param string $domainName
+	 */    
+	public function setDomain( $domainName )
+	{
+		$this->domain = $domainName;
+		return $this;
+	}
+
+	/**
+	 * Gets the domain name of this instance
+	 * @return string/null $domainName
+	 */    
+	public function getDomain( )
+	{
+		return $this->domain;
+	}
+	/**
+	 * Creates a 'unique' element
+	 *
+	 * @param string &$uid the unique id generated for the item
+	 * @param string $itemName the item's name
+	 * @param array $attributes the item's attributes
+	 */
+	public function createUniqueElement( &$uid, $itemName, $attributes )
+	{
+		
+	}	 
+	/**
+	 * Puts a unique element in the database.
+	 * A 'unique identifier' is generated to this effect.
+	 * Collisions can still occur albeit at low probability.
+	 * 
+	 * @param string &$uid the unique id 
+	 * @param string $itemName the item's name
+	 * @param array $attributes the item's attributes
+	 */
+	public function putUniqueElement( $uid, $itemName, $attributes )
+	{
+		
+	}
+	/**
+	 * 
 	 * 
 	 * @param $action
 	 */
-	public function createUnique( $action )
-	{
-        if (!$action instanceof SimpleDBx_CreateUnique) {
-            require_once ('JLD/Amazon/Extensions/SimpleDBx/Model/CreateUnique.php');
-            $action = new SimpleDBx_CreateUnique($action);
-        }
-
-		// First, the quick test
-		if ( $this->itemExists( $action ) )
-			return self::CODE_ITEM_EXIST;		
-
-		$itemName = $action->getItemName();
-		
-		// compute ''lock'' item
-		$lock = self::$lock.$itemName; //##FIXME
-		
-		// check if there is an existing ''lock''
-		if ($this->itemExists( $lock ))
-			return self::CODE_LOCK_PRESENT;
-		
-		// create a ''unique'' token
-		$uid = md5( uniqid( rand(), true ) );
-		
-		// insert a ''lock'' item corresponding to the
-		// ''item'' name to create
-		$res = $this->putLock( $lock, $uid );
-		
-		
-	}
-	/**
-	 * Verifies if the specified 'itemName' exists
-	 */	
-	public function itemExists( &$action )
+	public function getUniqueElement( $uid )
 	{
 		
 	}
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Modified Parent Interface
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
-	 * The parent's putAttributes method must be extended
-	 * to trap the use of the reserved ''namespace''.
+	 * 
+	 * 
+	 * @param $action
 	 */
-    public function putAttributes( $action )
+	public function deleteUniqueElementAttributes( $uid )
 	{
-
+		
 	}
+	/**
+	 * Deletes the/all elements with $itemName.
+	 * 
+	 * @param $action
+	 */
+	public function deleteElement( $itemName )
+	{
+		
+	}
+	/**
+	 * 
+	 * 
+	 * @param $action
+	 */
+	public function deleteUniqueElement( $uid )
+	{
+		
+	}
+	/**
+	 * 
+	 * 
+	 * @param $action
+	 */
+	public function isUniqueElement( $itemName )
+	{
+		
+	}
+	
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// HELPER METHODS
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	protected function generateUID()
+	{
+		
+	}
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Modified Parent Interface -- Unsupported Methods
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    /**
+     * @see http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/SDB_API_CreateDomain.html      
+     * @param mixed $action array of parameters for Amazon_SimpleDB_Model_CreateDomain action or Amazon_SimpleDB_Model_CreateDomain object itself
+     * @see Amazon_SimpleDB_Model_CreateDomain
+     * @return Amazon_SimpleDB_Model_CreateDomainResponse Amazon_SimpleDB_Model_CreateDomainResponse
+     *
+     * @throws Amazon_SimpleDB_Exception
+     */
+    public function createDomain($action) 
+    {
+		throw new Exception( __METHOD__.': method not supported.' );
+    }
+	
+	/**
+	 * @see http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/SDB_API_ListDomains.html      
+     * @param mixed $action array of parameters for Amazon_SimpleDB_Model_ListDomains action or Amazon_SimpleDB_Model_ListDomains object itself
+     * @see Amazon_SimpleDB_Model_ListDomains
+     * @return Amazon_SimpleDB_Model_ListDomainsResponse Amazon_SimpleDB_Model_ListDomainsResponse
+     *
+     * @throws Amazon_SimpleDB_Exception
+     */
+    public function listDomains($action) 
+    {
+		throw new Exception( __METHOD__.': method not supported.' );    
+	}
+            
+    /**
+     * @see http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/SDB_API_DeleteDomain.html      
+     * @param mixed $action array of parameters for Amazon_SimpleDB_Model_DeleteDomain action or Amazon_SimpleDB_Model_DeleteDomain object itself
+     * @see Amazon_SimpleDB_Model_DeleteDomain
+     * @return Amazon_SimpleDB_Model_DeleteDomainResponse Amazon_SimpleDB_Model_DeleteDomainResponse
+     *
+     * @throws Amazon_SimpleDB_Exception
+     */
+    public function deleteDomain($action) 
+    {
+		throw new Exception( __METHOD__.': method not supported.' );        
+	}
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Modified Parent Interface -- Enhanced
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+    /**
+     * @see http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/SDB_API_PutAttributes.html      
+     * @param mixed $action array of parameters for Amazon_SimpleDB_Model_PutAttributes action or Amazon_SimpleDB_Model_PutAttributes object itself
+     * @see Amazon_SimpleDB_Model_PutAttributes
+     * @return Amazon_SimpleDB_Model_PutAttributesResponse Amazon_SimpleDB_Model_PutAttributesResponse
+     *
+     * @throws Amazon_SimpleDB_Exception
+     */
+    public function putAttributes($action) 
+    {
+        if (!$action instanceof Amazon_SimpleDB_Model_PutAttributes) {
+            require_once ('Amazon/SimpleDB/Model/PutAttributes.php');
+            $action = new Amazon_SimpleDB_Model_PutAttributes($action);
+        }
+		
+		$this->injectDomainName( $action );				
+		
+        require_once ('Amazon/SimpleDB/Model/PutAttributesResponse.php');
+        return Amazon_SimpleDB_Model_PutAttributesResponse::fromXML($this->_invoke($action->toMap()));
+    }
+
+
+            
+    /**
+     * @see http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/SDB_API_GetAttributes.html      
+     * @param mixed $action array of parameters for Amazon_SimpleDB_Model_GetAttributes action or Amazon_SimpleDB_Model_GetAttributes object itself
+     * @see Amazon_SimpleDB_Model_GetAttributes
+     * @return Amazon_SimpleDB_Model_GetAttributesResponse Amazon_SimpleDB_Model_GetAttributesResponse
+     *
+     * @throws Amazon_SimpleDB_Exception
+     */
+    public function getAttributes($action) 
+    {
+        if (!$action instanceof Amazon_SimpleDB_Model_GetAttributes) {
+            require_once ('Amazon/SimpleDB/Model/GetAttributes.php');
+            $action = new Amazon_SimpleDB_Model_GetAttributes($action);
+        }
+		
+		$this->injectDomainName( $action );				
+		
+        require_once ('Amazon/SimpleDB/Model/GetAttributesResponse.php');
+        return Amazon_SimpleDB_Model_GetAttributesResponse::fromXML($this->_invoke($action->toMap()));
+    }
+
+
+            
+    /**
+     * Delete Attributes 
+     * Deletes one or more attributes associated with the item. If all attributes of an item are deleted, the item is
+     * deleted.
+     *   
+     * @see http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/SDB_API_DeleteAttributes.html      
+     * @param mixed $action array of parameters for Amazon_SimpleDB_Model_DeleteAttributes action or Amazon_SimpleDB_Model_DeleteAttributes object itself
+     * @see Amazon_SimpleDB_Model_DeleteAttributes
+     * @return Amazon_SimpleDB_Model_DeleteAttributesResponse Amazon_SimpleDB_Model_DeleteAttributesResponse
+     *
+     * @throws Amazon_SimpleDB_Exception
+     */
+    public function deleteAttributes($action) 
+    {
+        if (!$action instanceof Amazon_SimpleDB_Model_DeleteAttributes) {
+            require_once ('Amazon/SimpleDB/Model/DeleteAttributes.php');
+            $action = new Amazon_SimpleDB_Model_DeleteAttributes($action);
+        }
+		
+		$this->injectDomainName( $action );				
+		
+        require_once ('Amazon/SimpleDB/Model/DeleteAttributesResponse.php');
+        return Amazon_SimpleDB_Model_DeleteAttributesResponse::fromXML($this->_invoke($action->toMap()));
+    }
+
+
+            
+    /**
+     * Query 
+     * The Query operation returns a set of ItemNames that match the query expression. Query operations that
+     * run longer than 5 seconds will likely time-out and return a time-out error response.
+     * A Query with no QueryExpression matches all items in the domain.
+     *   
+     * @see http://docs.amazonwebservices.com/AmazonSimpleDB/2007-11-07/DeveloperGuide/SDB_API_Query.html      
+     * @param mixed $action array of parameters for Amazon_SimpleDB_Model_Query action or Amazon_SimpleDB_Model_Query object itself
+     * @see Amazon_SimpleDB_Model_Query
+     * @return Amazon_SimpleDB_Model_QueryResponse Amazon_SimpleDB_Model_QueryResponse
+     *
+     * @throws Amazon_SimpleDB_Exception
+     */
+    public function query($action) 
+    {
+        if (!$action instanceof Amazon_SimpleDB_Model_Query) {
+            require_once ('Amazon/SimpleDB/Model/Query.php');
+            $action = new Amazon_SimpleDB_Model_Query($action);
+        }
+		
+		$this->injectDomainName( $action );		
+		
+        require_once ('Amazon/SimpleDB/Model/QueryResponse.php');
+        return Amazon_SimpleDB_Model_QueryResponse::fromXML($this->_invoke($action->toMap()));
+    }
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// HELPER methods for the modified Parent Interface
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	protected function injectDomainName( &$action )
+	{
+		if ( $this->domain === null )	
+			throw new Exception( __METHOD__.': domain not initialized.' );
+			
+		$action->setDomainName( $this->domain );			
+	}
+
 }//end class
