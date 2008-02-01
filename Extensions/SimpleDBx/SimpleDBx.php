@@ -23,6 +23,7 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
 	 */	
 	const CODE_OK				= true;
 	const CODE_LOCK_PRESENT		= -1;
+	const CODE_ITEM_EXISTS		= -2;	
 		 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // Extended interface
@@ -34,8 +35,19 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
 	 */
 	public function createUnique( $action )
 	{
+        if (!$action instanceof SimpleDBx_CreateUnique) {
+            require_once ('JLD/Amazon/Extensions/SimpleDBx/Model/CreateUnique.php');
+            $action = new SimpleDBx_CreateUnique($action);
+        }
+
+		// First, the quick test
+		if ( $this->itemExists( $action ) )
+			return self::CODE_ITEM_EXIST;		
+
+		$itemName = $action->getItemName();
+		
 		// compute ''lock'' item
-		$lock = self::$lock.$action; //##FIXME
+		$lock = self::$lock.$itemName; //##FIXME
 		
 		// check if there is an existing ''lock''
 		if ($this->itemExists( $lock ))
@@ -51,11 +63,11 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
 		
 	}
 	/**
-	 *
+	 * Verifies if the specified 'itemName' exists
 	 */	
-	public function itemExists( &$item )
+	public function itemExists( &$action )
 	{
-	
+		
 	}
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // Modified Parent Interface
