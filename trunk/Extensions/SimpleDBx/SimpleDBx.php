@@ -30,7 +30,7 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
 	var $domain = null;
 			 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// Extended interface
+// Extended interface - PART I
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
 	 * Sets the domain name for this object instance
@@ -50,80 +50,106 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
 	{
 		return $this->domain;
 	}
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// Extended interface - PART II
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
 	 * Creates a 'unique' element
 	 *
-	 * @param string &$uid the unique id generated for the item
-	 * @param string $itemName the item's name
-	 * @param array $attributes the item's attributes
 	 */
-	public function createUniqueElement( &$uid, $itemName, $attributes )
+	public function createUniqueElement( &$action )
 	{
-		
+        if (!$action instanceof SimpleDBx_CreateUniqueElement ) {
+            require_once ('Amazon/Extensions/SimpleDBx/Model/CreateUniqueElement.php');
+            $action = new SimpleDBx_CreateUniqueElement($action);
+        }
+        require_once ('Amazon/Extensions/SimpleDBx/Model/CreateUniqueElementResponse.php');
+        return SimpleDBx_CreateUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}	 
 	/**
 	 * Puts a unique element in the database.
-	 * A 'unique identifier' is generated to this effect.
 	 * Collisions can still occur albeit at low probability.
 	 * 
-	 * @param string &$uid the unique id 
-	 * @param string $itemName the item's name
-	 * @param array $attributes the item's attributes
 	 */
-	public function putUniqueElement( $uid, $itemName, $attributes )
+	public function putUniqueElement( &$action )
 	{
-		
+        if (!$action instanceof SimpleDBx_PutUniqueElement ) {
+            require_once ('Amazon/Extensions/SimpleDBx/Model/PutUniqueElement.php');
+            $action = new SimpleDBx_PutUniqueElement($action);
+        }
+        require_once ('Amazon/Extensions/SimpleDBx/Model/PutUniqueElementResponse.php');
+        return SimpleDBx_PutUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
 	 * 
 	 * 
 	 * @param $action
 	 */
-	public function getUniqueElement( $uid )
+	public function getUniqueElement( &$element )
 	{
-		
+        if (!$action instanceof SimpleDBx_GetUniqueElement ) {
+            require_once ('Amazon/Extensions/SimpleDBx/Model/GetUniqueElement.php');
+            $action = new SimpleDBx_GetUniqueElement($action);
+        }
+        require_once ('Amazon/Extensions/SimpleDBx/Model/GetUniqueElementResponse.php');
+        return SimpleDBx_GetUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
 	 * 
 	 * 
 	 * @param $action
 	 */
-	public function deleteUniqueElementAttributes( $uid )
+	public function deleteUniqueElementAttributes( &$element )
 	{
-		
+        if (!$action instanceof SimpleDBx_GetUniqueElement ) {
+            require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteUniqueElementAttributes.php');
+            $action = new SimpleDBx_DeleteUniqueElementAttributes($action);
+        }
+        require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteUniqueElementAttributesResponse.php');
+        return SimpleDBx_DeleteUniqueElementAttributesResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
 	 * Deletes the/all elements with $itemName.
 	 * 
 	 * @param $action
 	 */
-	public function deleteElement( $itemName )
+	public function deleteElements( &$element )
 	{
-		
+        if (!$action instanceof SimpleDBx_DeleteElements ) {
+            require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteElements.php');
+            $action = new SimpleDBx_DeleteElements($action);
+        }
+        require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteElementsResponse.php');
+        return SimpleDBx_DeleteElementsResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
 	 * 
 	 * 
 	 * @param $action
 	 */
-	public function deleteUniqueElement( $uid )
+	public function deleteUniqueElement( &$element )
 	{
-		
+        if (!$action instanceof SimpleDBx_DeleteUniqueElement ) {
+            require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteUniqueElement.php');
+            $action = new SimpleDBx_DeleteElements($action);
+        }
+        require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteUniqueElementResponse.php');
+        return SimpleDBx_DeleteUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
 	 * 
 	 * 
 	 * @param $action
 	 */
-	public function isUniqueElement( $itemName )
+	public static function isUniqueElement( &$responseMetaData )
 	{
-		
+
 	}
 	
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // HELPER METHODS
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	protected function generateUID()
+	protected function generateUID( )
 	{
 		
 	}
