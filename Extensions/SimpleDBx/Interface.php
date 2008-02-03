@@ -24,12 +24,12 @@ interface  SimpleDBx_Interface
 	/**
 	 *
 	 */    
-	public function createUniqueElement( &$uid, $itemName, $attributes );
+	public function createUniqueElement( &$uid, &$element );
             
 	/**
 	 *
 	 */    
-	public function putUniqueElement( $uid, $itemName, $attributes );
+	public function putUniqueElement( $uid, &$element );
 
 	/**
 	 *
@@ -44,7 +44,7 @@ interface  SimpleDBx_Interface
 	/**
 	 *
 	 */
-	public function isUniqueElement( $itemName );
+	public function isUniqueElement( &$element );
 	
 	/**
 	 *
