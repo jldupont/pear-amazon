@@ -55,7 +55,7 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
 	 * Creates a 'unique' element
-	 *
+	 * Built on the 'putAttributes' primitive.
 	 */
 	public function createUniqueElement( &$action )
 	{
@@ -68,6 +68,7 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
 	}	 
 	/**
 	 * Puts a unique element in the database.
+	 * Built on the 'putAttributes' primitive.	 
 	 * Collisions can still occur albeit at low probability.
 	 * 
 	 */
@@ -81,8 +82,8 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
         return SimpleDBx_PutUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
-	 * 
-	 * 
+	 * GetUniqueElement
+	 * Built on the 'getAttributes' primitive.
 	 * @param $action
 	 */
 	public function getUniqueElement( &$element )
@@ -95,7 +96,8 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
         return SimpleDBx_GetUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
-	 * 
+	 * DeleteUniqueElementAttributes
+	 * Built on the 'deleteAttributes' primitive.
 	 * 
 	 * @param $action
 	 */
@@ -110,7 +112,8 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
 	}
 	/**
 	 * Deletes the/all elements with $itemName.
-	 * 
+	 * Built on the 'deleteAttributes' primitive.
+	 *
 	 * @param $action
 	 */
 	public function deleteElements( &$element )
@@ -123,7 +126,8 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
         return SimpleDBx_DeleteElementsResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
-	 * 
+	 * DeleteUniqueElement
+	 * Built on the 'deleteAttributes' primitive.
 	 * 
 	 * @param $action
 	 */
