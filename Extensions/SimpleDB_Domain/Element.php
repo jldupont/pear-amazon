@@ -18,15 +18,29 @@ class SimpleDB_Domain_Element
 	 *
 	 */
 	var $uid = null;
-	
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// CONSTRUCTION & INITIALIZATION
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
 	 *
 	 */	
-	public function __construct()
+	public function __construct( $uid = null )
 	{
-		
+		$this->uid = $uid;		
 	}
-
+	/**
+	 * Prepares this element for a transaction.
+	 * Generates a uid if not already done.
+	 */	
+	public function prepare()
+	{
+		if (is_null( $this->uid ))
+			$this->generateUID();
+	}
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// SET/GET interface
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     /**
      * Support for virtual properties getters. 
      * 
@@ -69,11 +83,12 @@ class SimpleDB_Domain_Element
 // Unique ID related.
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
+	 * Generate a UID for this element.
 	 *
 	 */	
 	public function generateUID( )
 	{
-		
+		$this->uid = 0; //TODO	
 	}
 	/**
 	 * Sets the unique ID.
@@ -90,8 +105,18 @@ class SimpleDB_Domain_Element
 	{
 		return $this->uid;
 	}
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-// 
-// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-		
+	/**
+	 * Validate the uid
+	 */	
+	public function uidValid()
+	{
+		return !is_null( $this->uid );	
+	}	 
+	/**
+	 * Creates an element from a uid.
+	 */	
+	public static function fromUID( $uid )	 
+	{
+		return new SimpleDB_Domain_Element( $uid );
+	}
 } //end class

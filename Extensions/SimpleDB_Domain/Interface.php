@@ -23,15 +23,7 @@ interface  SimpleDB_Domain_Interface
 	public function getDomain( );
 
 	/**
-	 * Creates a 'unique' element in the domain
-	 *
-	 * @param SimpleDB_Domain_Element
-	 * @throws Exception
-	 */    
-	public function createElement( &$element );
-            
-	/**
-	 * Updates a single element in the current domain.
+	 * Updates/Creates a single element in the current domain.
 	 * The element must already exists or else an exception is throwned.
 	 *
 	 * @param SimpleDB_Domain_Element

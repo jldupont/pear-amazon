@@ -9,6 +9,7 @@
  */
 
 require_once 'Amazon/SimpleDB/Client.php';
+require 'Amazon/Extensions/SimpleDB_Domain/Bridge.php';
 require 'Amazon/Extensions/SimpleDB_Domain/Element.php';
 require 'Amazon/Extensions/SimpleDB_Domain/Interface.php';
 
@@ -54,32 +55,39 @@ class SimpleDB_Domain
 	{
 		return $this->domain;		
 	}
-
-	/**
-	 * Creates a 'unique' element in the domain
-	 *
-	 * @param SimpleDB_Domain_Element
-	 * @throws Exception
-	 */    
-	public function createElement( &$element );
-            
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// INTERFACE
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
 	 * Updates a single element in the current domain.
 	 * The element must already exists or else an exception is throwned.
+	 * Uses the 'putAttributes' method API.
 	 *
 	 * @param SimpleDB_Domain_Element
-	 * @throws Exception	 
+	 * @throws Amazon_SimpleDB_Exception *iff* there was an error
 	 */    
-	public function setElement( &$element );
-
+	public function setElement( &$element )
+	{
+		assert( $element instanceof SimpleDB_Domain_Element);
+			
+		$this->doAction( 'putAttributes', $element );
+		
+		return $element;			
+	}
 	/**
 	 * Gets a single element from the current domain.
 	 *
 	 * @param SimpleDB_Domain_Element
 	 * @throws Exception	 
 	 */    
-	public function getElement( &$element );
-	
+	public function getElement( $element )
+	{
+		assert( $element instanceof SimpleDB_Domain_Element);
+
+		$this->doAction( 'getAttributes', $element );
+				
+		return $element;			
+	}
 	/**
 	 * Deletes a single element in the current domain.
 	 * Since the creation process can create multiple
@@ -90,14 +98,34 @@ class SimpleDB_Domain
 	 * @param SimpleDB_Domain_Element
 	 * @throws Exception	 
 	 */    
-	public function deleteElement( &$element );
-
+	public function deleteElement( &$element )
+	{
+		assert( $element instanceof SimpleDB_Domain_Element);		
+		
+		$this->doAction( 'deleteAttributes', $element );		
+	}
 	/**
 	 * Determines if the given element is unique.
 	 *
 	 * @param SimpleDB_Domain_Element
 	 * @throws Exception	 
 	 */
-	public static function isUniqueElement( &$element );
+	public static function isUniqueElement( &$element )
+	{
+		assert( $element instanceof SimpleDB_Domain_Element);
+				
+	}	
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+// 
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	protected function doAction( $method, &$element )
+	{
+		assert( !is_null( $this->domain ) );
+		
+		$action = SimpleDB_Domain_Bridge::fromElementToAction( $element );
+		$action->setDomain( $this->domain );
+		
+		$this->service->$method( $action );
+	}	
 	
 } //end class
