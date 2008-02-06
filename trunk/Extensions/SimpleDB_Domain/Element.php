@@ -4,6 +4,7 @@
  * SimpleDB_Domain - Amazon SimpleDB Extension
  *
  * @author Jean-Lou Dupont
+ * @package SimpleDB_Extensions 
  * @version @@package-version@@
  * @category extensions
  */
@@ -18,6 +19,14 @@ class SimpleDB_Domain_Element
 	 *
 	 */
 	var $uid = null;
+	/**
+	 *
+	 */
+	var $itemName = null;
+	/**
+	 *
+	 */
+
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // CONSTRUCTION & INITIALIZATION
@@ -86,7 +95,7 @@ class SimpleDB_Domain_Element
 	 * Generate a UID for this element.
 	 *
 	 */	
-	public function generateUID( )
+	protected function generateUID( )
 	{
 		$this->uid = 0; //TODO	
 	}
