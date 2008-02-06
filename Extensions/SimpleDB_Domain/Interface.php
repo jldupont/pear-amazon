@@ -1,15 +1,19 @@
 <?php
 /**
- * SimpleDB_Domain
+ * SimpleDB_Domain_Interface
  * Amazon SimpleDB Extension
  *
  * @author Jean-Lou Dupont
+ * @package SimpleDB_Extensions
  * @version @@package-version@@
  * @category extensions
  */
 
 interface  SimpleDB_Domain_Interface 
 {
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+// DOMAIN related	
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	/**
 	 * Sets the domain name for this object instance
 	 * @param string $domainName
@@ -22,12 +26,15 @@ interface  SimpleDB_Domain_Interface
 	 */    
 	public function getDomain( );
 
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+// ELEMENT related	
+// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	/**
 	 * Updates/Creates a single element in the current domain.
 	 * The element must already exists or else an exception is throwned.
 	 *
 	 * @param SimpleDB_Domain_Element
-	 * @throws Exception	 
+	 * @throws Amazon_SimpleDB_Exception *iff* there was an error
 	 */    
 	public function setElement( &$element );
 
@@ -35,7 +42,7 @@ interface  SimpleDB_Domain_Interface
 	 * Gets a single element from the current domain.
 	 *
 	 * @param SimpleDB_Domain_Element
-	 * @throws Exception	 
+	 * @throws Amazon_SimpleDB_Exception *iff* there was an error
 	 */    
 	public function getElement( &$element );
 	
@@ -47,16 +54,8 @@ interface  SimpleDB_Domain_Interface
 	 * all such entries.
 	 *
 	 * @param SimpleDB_Domain_Element
-	 * @throws Exception	 
+	 * @throws Amazon_SimpleDB_Exception *iff* there was an error
 	 */    
 	public function deleteElement( &$element );
 
-	/**
-	 * Determines if the given element is unique.
-	 *
-	 * @param SimpleDB_Domain_Element
-	 * @throws Exception	 
-	 */
-	public static function isUniqueElement( &$element );
-	
 }

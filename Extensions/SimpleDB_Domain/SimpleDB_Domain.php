@@ -4,11 +4,15 @@
  * SimpleDB_Domain - Amazon SimpleDB Extension
  *
  * @author Jean-Lou Dupont
+ * @package SimpleDB_Extensions
  * @version @@package-version@@
  * @category extensions
  */
-
+/**
+ *
+ */
 require_once 'Amazon/SimpleDB/Client.php';
+require 'Amazon/Extensions/SimpleDB_Domain/Exception.php';
 require 'Amazon/Extensions/SimpleDB_Domain/Bridge.php';
 require 'Amazon/Extensions/SimpleDB_Domain/Element.php';
 require 'Amazon/Extensions/SimpleDB_Domain/Interface.php';
@@ -60,7 +64,12 @@ class SimpleDB_Domain
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	/**
 	 * Updates a single element in the current domain.
-	 * The element must already exists or else an exception is throwned.
+	 * 1) If the element does not exist (i.e. uid == null), the
+	 *	  element is created with a generated unique uid.
+	 * 2) If the element already exists in the db, it is updated.
+	 * 3) If the element contains a uid *but* it does not exist
+	 *	  in the db, it is created with the given uid.
+	 *
 	 * Uses the 'putAttributes' method API.
 	 *
 	 * @param SimpleDB_Domain_Element
@@ -68,23 +77,34 @@ class SimpleDB_Domain
 	 */    
 	public function setElement( &$element )
 	{
-		assert( $element instanceof SimpleDB_Domain_Element);
-			
-		$this->doAction( 'putAttributes', $element );
+		assert( $element instanceof SimpleDB_Domain_Element );
+		assert( $this->service instanceof Amazon_SimpleDB_Client );
+
+		// prepares the 'action' object for SimpleDB
+		$action = SimpleDB_Domain_Bridge::fromElementToAction( $element );
+		$action->setDomain( $this->domain );
+		
+		// The response code isn't important: if there is an error,
+		// an exception will be throwned
+		/*$response = */ $this->service->putAttributes( $action );
 		
 		return $element;			
 	}
 	/**
 	 * Gets a single element from the current domain.
+	 * Since SimpleDB's parameter 'itemName' is effectively used
+	 * to carry the unique identifier, we need to use the 'query' method
+	 * API to retrieve an element.
 	 *
 	 * @param SimpleDB_Domain_Element
-	 * @throws Exception	 
+	 * @throws Amazon_SimpleDB_Exception *iff* there was an error
 	 */    
 	public function getElement( $element )
 	{
-		assert( $element instanceof SimpleDB_Domain_Element);
+		assert( $element instanceof SimpleDB_Domain_Element );
+		assert( $this->service instanceof Amazon_SimpleDB_Client );
 
-		$this->doAction( 'getAttributes', $element );
+		$this->doAction( 'getAttributes', $element, true );
 				
 		return $element;			
 	}
@@ -96,36 +116,36 @@ class SimpleDB_Domain
 	 * all such entries.
 	 *
 	 * @param SimpleDB_Domain_Element
-	 * @throws Exception	 
+	 * @throws Amazon_SimpleDB_Exception *iff* there was an error
 	 */    
 	public function deleteElement( &$element )
 	{
-		assert( $element instanceof SimpleDB_Domain_Element);		
-		
-		$this->doAction( 'deleteAttributes', $element );		
-	}
-	/**
-	 * Determines if the given element is unique.
-	 *
-	 * @param SimpleDB_Domain_Element
-	 * @throws Exception	 
-	 */
-	public static function isUniqueElement( &$element )
-	{
-		assert( $element instanceof SimpleDB_Domain_Element);
+		assert( $element instanceof SimpleDB_Domain_Element );		
+		assert( $this->service instanceof Amazon_SimpleDB_Client );
 				
-	}	
+		$this->doAction( 'deleteAttributes', $element );
+		
+		return null;	
+	}
+
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	protected function doAction( $method, &$element )
+	/**
+	 * Calls the target method in the server class.
+	 * The server class throws the exceptions.
+	 */
+	protected function doAction( $method, &$element, $update = false )
 	{
 		assert( !is_null( $this->domain ) );
 		
 		$action = SimpleDB_Domain_Bridge::fromElementToAction( $element );
 		$action->setDomain( $this->domain );
 		
-		$this->service->$method( $action );
+		$response = $this->service->$method( $action );
+		
+		if ( $update )
+			SimpleDB_Domain_Bridge::fromResponseToElement( $element, $response );
 	}	
 	
 } //end class
