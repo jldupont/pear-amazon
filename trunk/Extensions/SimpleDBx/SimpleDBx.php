@@ -6,12 +6,6 @@
  * is abstracted to deal with the customer's whole domain space.
  *
  * It also sports the following additional methods:
- * - createUniqueElement
- * - putUniqueElement
- * - getUniqueElement
- * - deleteUniqueElement
- * - deleteElements
- * - isUniqueElement
  *
  * @author Jean-Lou Dupont
  * @version @@package-version@@
@@ -21,7 +15,7 @@
 require 'Amazon/SimpleDB/Client.php';
 require 'Amazon/Extensions/SimpleDBx/Interface.php';
 
-class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
+class SimpleDBx_Client extends Amazon_SimpleDB_Client
 	implements SimpleDBx_Interface
 {
 	/**
@@ -63,6 +57,9 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
             require_once ('Amazon/Extensions/SimpleDBx/Model/CreateUniqueElement.php');
             $action = new SimpleDBx_CreateUniqueElement($action);
         }
+		$action->setDomain( $this->domain );
+		$action->setUID( $this->generateUID() );
+				
         require_once ('Amazon/Extensions/SimpleDBx/Model/CreateUniqueElementResponse.php');
         return SimpleDBx_CreateUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}	 
@@ -78,6 +75,9 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
             require_once ('Amazon/Extensions/SimpleDBx/Model/PutUniqueElement.php');
             $action = new SimpleDBx_PutUniqueElement($action);
         }
+		
+		$action->setDomain( $this->domain );
+				
         require_once ('Amazon/Extensions/SimpleDBx/Model/PutUniqueElementResponse.php');
         return SimpleDBx_PutUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}
@@ -92,7 +92,10 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
             require_once ('Amazon/Extensions/SimpleDBx/Model/GetUniqueElement.php');
             $action = new SimpleDBx_GetUniqueElement($action);
         }
-        require_once ('Amazon/Extensions/SimpleDBx/Model/GetUniqueElementResponse.php');
+		
+		$action->setDomain( $this->domain );
+		
+		require_once ('Amazon/Extensions/SimpleDBx/Model/GetUniqueElementResponse.php');
         return SimpleDBx_GetUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}
 	/**
@@ -107,6 +110,9 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
             require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteUniqueElementAttributes.php');
             $action = new SimpleDBx_DeleteUniqueElementAttributes($action);
         }
+		
+		$action->setDomain( $this->domain );		
+		
         require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteUniqueElementAttributesResponse.php');
         return SimpleDBx_DeleteUniqueElementAttributesResponse::fromXML($this->_invoke($action->toMap()));
 	}
@@ -122,6 +128,9 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
             require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteElements.php');
             $action = new SimpleDBx_DeleteElements($action);
         }
+		
+		$action->setDomain( $this->domain );		
+		
         require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteElementsResponse.php');
         return SimpleDBx_DeleteElementsResponse::fromXML($this->_invoke($action->toMap()));
 	}
@@ -137,6 +146,9 @@ class Amazon_SimpleDB_Client_x extends Amazon_SimpleDB_Client
             require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteUniqueElement.php');
             $action = new SimpleDBx_DeleteElements($action);
         }
+		
+		$action->setDomain( $this->domain );		
+		
         require_once ('Amazon/Extensions/SimpleDBx/Model/DeleteUniqueElementResponse.php');
         return SimpleDBx_DeleteUniqueElementResponse::fromXML($this->_invoke($action->toMap()));
 	}
