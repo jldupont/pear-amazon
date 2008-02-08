@@ -17,8 +17,8 @@
 	<resolvepath propertyName="root.path" file="${project.basedir}/../" /> <!-- 1 level down -->
 
 	<target name='copyLocal'>
-		<copy todir='${pear.path}' >
-			<fileset dir='root.path'>
+		<copy todir='${pear.path}${package.path}' >
+			<fileset dir='${root.path}'>
 				<include name="**/**" />
 			</fileset>
 		</copy>

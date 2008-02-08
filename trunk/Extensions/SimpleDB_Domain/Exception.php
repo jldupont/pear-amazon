@@ -8,7 +8,7 @@
  * @version @@package-version@@
  * @category extensions
  */
-
+require_once 'Amazon/SimpleDB/Exception.php';
 class  SimpleDB_Domain_Exception extends Amazon_SimpleDB_Exception
 {
 // $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
