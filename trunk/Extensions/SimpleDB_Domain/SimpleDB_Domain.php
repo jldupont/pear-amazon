@@ -81,12 +81,7 @@ class SimpleDB_Domain
 		assert( $this->service instanceof Amazon_SimpleDB_Client );
 
 		// prepares the 'action' object for SimpleDB
-		$action = SimpleDB_Domain_Bridge::fromElementToAction( $element );
-		$action->setDomain( $this->domain );
-		
-		// The response code isn't important: if there is an error,
-		// an exception will be throwned
-		/*$response = */ $this->service->putAttributes( $action );
+		SimpleDB_Domain_Bridge::putAttributes( $this->domain, $element );
 		
 		return $element;			
 	}
@@ -104,7 +99,7 @@ class SimpleDB_Domain
 		assert( $element instanceof SimpleDB_Domain_Element );
 		assert( $this->service instanceof Amazon_SimpleDB_Client );
 
-		$this->doAction( 'getAttributes', $element, true );
+		SimpleDB_Domain_Bridge::getElement( $this->domain, $element );
 				
 		return $element;			
 	}
@@ -123,7 +118,7 @@ class SimpleDB_Domain
 		assert( $element instanceof SimpleDB_Domain_Element );		
 		assert( $this->service instanceof Amazon_SimpleDB_Client );
 				
-		$this->doAction( 'deleteAttributes', $element );
+		SimpleDB_Domain_Bridge::deleteElement( $this->domain, $element );
 		
 		return null;	
 	}
