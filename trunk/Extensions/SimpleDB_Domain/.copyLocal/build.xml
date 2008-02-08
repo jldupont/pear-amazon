@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<!--
+	Generic PHING build file 
+	
+	@author Jean-Lou Dupont
+	@version $Id: build.xml 257 2007-11-16 16:13:27Z JeanLou.Dupont $
+-->
+
+<project name="jldupont" basedir="." default='all' >
+
+	<taskdef classname='JLD.PhingTools.PearPathTask' name='peartask' />
+	<peartask property="pear.path" />
+	<echo>PEAR path: ${pear.path}</echo>
+
+	<property file="./build.properties" />
+	<resolvepath propertyName="root.path" file="${project.basedir}/../" /> <!-- 1 level down -->
+
+	<target name='copyLocal'>
+		<copy todir='${pear.path}' >
+			<fileset dir='root.path'>
+				<include name="**/**" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name='all' depends='copyLocal' />
+</project>
