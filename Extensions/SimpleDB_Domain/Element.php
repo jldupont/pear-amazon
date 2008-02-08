@@ -107,7 +107,7 @@ class SimpleDB_Domain_Element
 	 */	
 	public function setUID( $uid )
 	{
-		$this->uid = $uid;
+		$this->id = $uid;
 		return $this;		
 	}
 	/**
@@ -115,21 +115,31 @@ class SimpleDB_Domain_Element
 	 */	
 	public function getID( )
 	{
-		return $this->uid;
+		return $this->id;
 	}
 	/**
 	 * Validates (basic) the uid
 	 */	
 	public function IDValid()
 	{
-		return !is_null( $this->uid );	
+		return !is_null( $this->id );	
 	}	 
 	/**
 	 * Creates an element from a uid.
 	 */	
-	public static function fromID( $uid )	 
+	public static function & fromID( $uid )	 
 	{
 		return new SimpleDB_Domain_Element( $uid );
+	}
+	/**
+	 * Copies an element. 
+	 */	
+	public static function & fromElement( &$element )
+	{
+		$e = new SimpleDB_Domain_Element();
+		$e->setID( $this->getID() );
+		$e->setName( $this->getName() ); 
+		return $e;
 	}
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 // Attribute related
