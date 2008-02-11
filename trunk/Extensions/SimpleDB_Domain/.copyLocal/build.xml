@@ -10,8 +10,19 @@
 <project name="jldupont" basedir="." default='all' >
 
 	<taskdef classname='JLD.PhingTools.PearPathTask' name='peartask' />
+	<taskdef classname='JLD.PhingTools.FindFileTask' name='findfiletask' />
+
 	<peartask property="pear.path" />
+	<echo>Project base dir: ${project.basedir}</echo>
 	<echo>PEAR path: ${pear.path}</echo>
+
+	<findfiletask dir="${project.basedir}" 
+				source="channel.class.root.xml"
+				result="channel.class.root.file" />
+	<echo>Channel root class file: ${channel.class.root.file}</echo>
+
+	<property file="${channel.class.root.file}" />
+	<echo>Channel Root Class: ${channel.class.root} </echo>
 
 	<property file="./build.properties" />
 	<resolvepath propertyName="root.path" file="${project.basedir}/../" /> <!-- 1 level down -->
